@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Wait for the A-Frame scene to load and then get original position and init shift from origin for each 3D model.
     const scene = document.querySelector('a-scene');
     scene.addEventListener('loaded', () => {
-        // Set the original positions after the scene has loaded
         option_icon_ids.forEach((id) => {
             const entity = document.querySelector(`.${id}-entity`);
             if (entity) {
@@ -28,43 +27,49 @@ document.addEventListener("DOMContentLoaded", function () {
      * @param {string} id identifier for the entity
      */
     const setVisible = (button, entities, visible, id) => {
+        const num_visibles = visibility_states.filter(state => state == true).length - 1;
         entities.forEach(entity => {
-            num_visibles = visibility_states.filter(state => state == true).length - 1;
 
-            const newX = originalPositions[option_icon_ids[index]] + num_visibles * baseShift[option_icon_ids[index]];
-            console.log(newX);
-/*
-            const currentPosition = entity.getAttribute("position");
-            console.log("NO INIT POS???????", currentPosition);
-            console.log("baseshift*num_vis: ", shiftAmount * num_visibles, "shift ", shiftAmount, "num visi before shift ", num_visibles)
-            if (visible) {
-                entity.setAttribute("position", {
-                    x: parseFloat(shiftAmount * num_visibles)-0.5,
-                    y: currentPosition.y,
-                    z: currentPosition.z
-                });
-            } else {
-                entity.setAttribute("position", {
-                    x: parseFloat(shiftAmount * num_visibles),
-                    y: currentPosition.y,
-                    z: currentPosition.z
-                });
-            }*/
+            if (originalPositions[id]) {
+                const shift = baseShift[id] * num_visibles;
+                
+                console.log("\n\nNUM VIS: ", num_visibles);
+                console.log("SHIFT: ", shift);
+                console.log("VISIBLE: ", visible);
+                console.log("original pos: ", originalPositions[id]);
 
+                if (visible) {
+                    entity.setAttribute("position", {
+                        x: originalPositions[id].x + shift,
+                        y: originalPositions[id].y,
+                        z: originalPositions[id].z
+                    });
+                    console.log("X shift: ", originalPositions[id].x + shift);
+                } else {
+                    entity.setAttribute("position", {
+                        x: originalPositions[id].x - shift,
+                        y: originalPositions[id].y,
+                        z: originalPositions[id].z
+                    });
+                    console.log("X shift: ", originalPositions[id].x - shift);
+                }
+            }
             entity.setAttribute("visible", visible);
+
+
         });
         button.classList.toggle("selected", visible);
 
     };
 
-    
+
     option_icon_ids.forEach((id, index) => {
         const button = document.querySelector(`#${id}`);
         const entities = document.querySelectorAll(`.${id}-entity`);
         // Set initial visibility.
-        setVisible(button, entities, visibility_states[index]);        
+        setVisible(button, entities, visibility_states[index]);
         // Add a click event listener to toggle visibility of the 3D model on click
-        button.addEventListener('click', () => {            
+        button.addEventListener('click', () => {
             visibility_states[index] = !visibility_states[index];
             setVisible(button, entities, visibility_states[index], id);
         });
