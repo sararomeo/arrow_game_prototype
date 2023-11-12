@@ -1,0 +1,23 @@
+body {
+    margin: 0;    
+    overflow: hidden;
+}
+
+.options-menu {
+    position: relative;
+    top: 1em;
+    text-align: center;
+}
+
+.options-menu img {
+    border: solid 5px;
+    border-radius: 50%;
+    width: 39px;
+    height: 39px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.options-menu img.selected {
+    border-color: green;
+}

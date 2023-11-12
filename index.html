@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+
+    <!-- Imports (CSS, js, aframe, ar.js) -->
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="./fun.js"></script>
+
+    <!-- Default title bar & icon
+    <link rel="shortcut icon" href="../res/testicon.ico" type="image/x-icon" /> -->
+    <title>Gioco dell'arciere</title>
+</head>
+
+<body>
+    <div class="options-menu-container">
+        <div class="options-menu">
+            <img id="raschiatoio271435" src="./assets/2D/raschiatoio271435.png" />
+            <img id="arrowhead271422" src="./assets/2D/arrowhead271422.png" />
+        
+            <!-- TO GET AND PLACE 3D MODELS -->
+            <img id="arrowhead271409" src="./assets/2D/arrowhead271409.png" />
+            <img id="lama_pugnaletto" src="./assets/2D/lama_pugnaletto.png" />
+        
+            <img id="arrowhead271407" src="./assets/2D/arrowhead271407.png" />
+            <img id="lama271379" src="./assets/2D/lama271379.png" />
+        </div>
+    </div>
+
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+        <!-- 3D models -->
+        <a-assets>
+            <a-asset-item id="raschiatoio271435-asset" src="./assets/3D/raschiatoio271435.glb"></a-asset-item>
+            <a-asset-item id="arrowhead271422-asset" src="./assets/3D/arrowhead271422.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- Cylinders as arrow shafts with models on top -->
+        <a-marker preset="hiro">
+            <a-entity gltf-model="#raschiatoio271435-asset" scale="0.01 0.01 0.01" position="-0.5 0 -0.2" rotation="90 0 180" class="raschiatoio271435-entity"></a-entity>
+            <a-entity gltf-model="#arrowhead271422-asset" scale="0.01 0.01 0.01" position="-0.5 0 -0.2" rotation="90 0 180" class="arrowhead271422-entity"></a-entity>
+
+            <a-cylinder position="-0.5 0 0.5" rotation="90 0 0" color="#492201" radius="0.02" height="1"></a-cylinder>
+            <a-cylinder position="0 0 0.5" rotation="90 0 0" color="#492201" radius="0.02" height="1"></a-cylinder>
+            <a-cylinder position="0.5 0 0.5" rotation="90 0 0" color="#492201" radius="0.02" height="1"></a-cylinder>
+        </a-marker>
+
+        <!-- Default camera -->
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+</html>
