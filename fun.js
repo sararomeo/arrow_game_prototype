@@ -65,17 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log("ORIGINAL POS: ", originalPositions[id])
 
                 const shift = baseShift[id] * arrowshaft_num;
-                console.log("shift: ", shift);
-
                 newX = originalPositions[id].x - shift;
-                console.log("ORIGINAL POS (" + originalPositions[id].x + ") - shift (" + shift + ") = " + newX);
-
                 entity.setAttribute("position", {
                     x: newX,
                     y: originalPositions[id].y,
                     z: originalPositions[id].z
                 });
-                console.log("Final x pos: ", newX);
             }
         }
         entity.setAttribute("visible", visible);
@@ -98,13 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (visible) {
                 switch (num_visibles) {
                     case 0:
-                        console.log('case 0', num_visibles);
                         arrowshaft_num = 0;
                         occupyArrowShaft(arrowshaft_num, id);
                         shiftPos(entity, id, arrowshaft_num, visible);
                         break;
                     case 1:
-                        console.log('case 1', num_visibles);
                         if (arrowshaftOccupied[0] != false) {
                             arrowshaft_num = 1;
                         } else {
@@ -114,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         shiftPos(entity, id, arrowshaft_num, visible);
                         break;
                     case 2:
-                        console.log('case 2', num_visibles);
                         if (arrowshaftOccupied[0] != false && arrowshaftOccupied[1] != false) {
                             arrowshaft_num = 2;
                         } else if (arrowshaftOccupied[0] != false && arrowshaftOccupied[2] != false) {
@@ -133,7 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 indexx = getArrowShaftIndex(id);
                 freeArrowShaft(id);
-                console.log("REMOVE FROM and baseshift*arrowshaft: ", indexx);
                 shiftPos(entity, id, indexx, visible); // put into original pos
             }
         });
