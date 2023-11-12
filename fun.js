@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             console.log(`Arrow shaft ${index} is already occupied by ${arrowshaftOccupied[index]}.`);
         }
-        console.log("ARROWSHAFTS", arrowshaftOccupied);
+        console.log("arrowshafts state:\n", arrowshaftOccupied);
     }
     const getArrowShaftIndex = (id) => {
         return arrowshaftOccupied.findIndex((occupiedId) => occupiedId === id);
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             console.log(`Arrow shaft associated with ${id} is not occupied.`);
         }
-        console.log("ARROWSHAFTS", arrowshaftOccupied);
+        console.log("arrowshafts state:\n", arrowshaftOccupied);
         return index;
     }
 
@@ -45,33 +45,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const shiftPos = (entity, id, arrowshaft_num, visible) => {
         if (originalPositions[id]) {
-            console.log("VISIBLE: ", visible);
+            const shift = baseShift[id] * arrowshaft_num;
             if (visible) {
-                console.log("ORIGINAL POS: ", originalPositions[id])
-
-                const shift = baseShift[id] * arrowshaft_num;
-                console.log("shift: ", shift);
-
                 newX = originalPositions[id].x + shift;
-                console.log("ORIGINAL POS (" + originalPositions[id].x + ") + shift (" + shift + ") = " + newX);
-
-                entity.setAttribute("position", {
-                    x: newX,
-                    y: originalPositions[id].y,
-                    z: originalPositions[id].z
-                });
-                console.log("Final x pos: ", newX);
             } else if (!visible) {
-                console.log("ORIGINAL POS: ", originalPositions[id])
-
-                const shift = baseShift[id] * arrowshaft_num;
                 newX = originalPositions[id].x - shift;
-                entity.setAttribute("position", {
-                    x: newX,
-                    y: originalPositions[id].y,
-                    z: originalPositions[id].z
-                });
             }
+            entity.setAttribute("position", {
+                x: newX,
+                y: originalPositions[id].y,
+                z: originalPositions[id].z
+            });
         }
         entity.setAttribute("visible", visible);
     }
