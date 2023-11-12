@@ -54,16 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let flag = false;
 
         entities.forEach((entity) => {
-            let arrowshaft_num = 0;
-
-            if (visible) {
-                arrowshaft_num = Math.min(num_visibles, arrowshaftOccupied.indexOf(false));
-                occupyArrowShaft(arrowshaft_num, id);
-            } else {
-                arrowshaft_num = getArrowShaftIndex(id);
-                freeArrowShaft(id);
-            }
-
+            let arrowshaft_num = visible ? Math.min(num_visibles, arrowshaftOccupied.indexOf(false)) : getArrowShaftIndex(id);
+            visible ? occupyArrowShaft(arrowshaft_num, id) : freeArrowShaft(id);
             shiftPos(entity, id, arrowshaft_num, visible);
         });
 
