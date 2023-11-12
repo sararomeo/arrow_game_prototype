@@ -57,51 +57,19 @@ document.addEventListener("DOMContentLoaded", function () {
      * @param {string} id identifier for the entity
      */
     const setVisible = (button, entities, visible, num_visibles, id) => {
-        let flag = false;
-        console.log("NUM_VIS = ", num_visibles);
-
         entities.forEach((entity) => {
             if (visible) {
-                switch (num_visibles) {
-                    case 0:
-                        arrowshaft_num = 0;
-                        occupyArrowShaft(arrowshaft_num, id);
-                        shiftPos(entity, id, arrowshaft_num, visible);
-                        break;
-                    case 1:
-                        if (arrowshaftOccupied[0] != false) {
-                            arrowshaft_num = 1;
-                        } else {
-                            arrowshaft_num = 0;
-                        }
-                        occupyArrowShaft(arrowshaft_num, id);
-                        shiftPos(entity, id, arrowshaft_num, visible);
-                        break;
-                    case 2:
-                        if (arrowshaftOccupied[0] != false && arrowshaftOccupied[1] != false) {
-                            arrowshaft_num = 2;
-                        } else if (arrowshaftOccupied[0] != false && arrowshaftOccupied[2] != false) {
-                            arrowshaft_num = 1;
-                        } else if (arrowshaftOccupied[1] != false && arrowshaftOccupied[2] != false) {
-                            arrowshaft_num = 0;
-                        }
-                        occupyArrowShaft(arrowshaft_num, id);                        
-                        shiftPos(entity, id, arrowshaft_num, visible);
-                        break;
-                    default:
-                        flag = true;
-                        console.log(`do nothing bc >=3`);
-                        break;
-                    }
+                const arrowshaft_num = Math.min(num_visibles, arrowshaftOccupied.indexOf(false));
+                occupyArrowShaft(arrowshaft_num, id);
+                shiftPos(entity, id, arrowshaft_num, visible);
             } else {
-                indexx = getArrowShaftIndex(id);
+                const indexx = getArrowShaftIndex(id);
                 freeArrowShaft(id);
-                shiftPos(entity, id, indexx, visible); // put into original pos
+                shiftPos(entity, id, indexx, visible); // put into the original position
             }
         });
-        if (!flag) {
-            button.classList.toggle("selected", visible);
-        }
+
+        button.classList.toggle("selected", visible);
     };
 
     // Wait for the A-Frame scene to load and then get original position and init shift from origin for each 3D model.
