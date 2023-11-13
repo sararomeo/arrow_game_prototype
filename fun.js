@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const entity = document.querySelector(`.${id}-entity`);
             if (entity) {
                 originalPositions[id] = entity.getAttribute("position");
-                baseShift[id] = -originalPositions[id].x;
+                baseShift[id] = Math.abs(originalPositions[id].x);
             }
         });
     });
