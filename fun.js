@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const option_icon_ids = ["raschiatoio271435", "arrowhead271422", "braciere", "lama_pugnaletto"]; //, "arrowhead271409", "lama_pugnaletto", "arrowhead271407","lama271379"
+    const option_icon_ids = ["raschiatoio271435", "arrowhead271422", "arrowhead271409", "lama_pugnaletto", "arrowhead271407","lama271379"];
     const visibility_states = option_icon_ids.map(() => false);
     const baseShift = {};
     const originalPositions = {};
