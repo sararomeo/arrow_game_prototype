@@ -1,15 +1,19 @@
 body {
-    margin: 0;    
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
 }
 
-.options-menu {
+.optionsMenu {
     position: relative;
     top: 1em;
-    text-align: center;
+    text-align: center;    
+    z-index: 1;
 }
 
-.options-menu img {
+.optionsMenu img {
     border: solid 5px;
     border-radius: 50%;
     width: 39px;
@@ -18,6 +22,65 @@ body {
     cursor: pointer;
 }
 
-.options-menu img.selected {
+.optionsMenu img.selected {
     border-color: green;
+}
+
+.optionsMenu img.wrongAnswer {
+    border-color: red;
+}
+
+.optionsMenu img.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.gameActionsMenuContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #ddd;    
+    z-index: 1;
+}
+
+.gameButton {
+    font-size: 20px;
+    padding: 10px;
+    border: solid 5px;
+    cursor: pointer;
+    background-color: rgb(85, 137, 123);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fefefe;
+    padding: 20px;
+    border: solid 5px;
+    border-radius: 20%;
+    z-index: 1;
+    width: 17em;
+    height: 17em;
+}
+
+.popupContent {
+    text-align: center;
+}
+
+.popupContent>ol {
+    text-align: left;
+}
+
+.closePopup, .scorePopupButtons>button {
+    position: relative;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px;
 }

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const option_icon_ids = ["raschiatoio271435", "arrowhead271422", "arrowhead271409", "lama_pugnaletto", "arrowhead271407","lama271379"];
+    const option_icon_ids = ["raschiatoio271435", "arrowhead271422", "arrowhead271409", "lama_pugnaletto", "arrowhead271407", "lama271379"];
     const visibility_states = option_icon_ids.map(() => false);
     const baseShift = 0.5; // distance between each arrowshaft
     const originalPositions = {};
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /**
      * Set the visibility of a 3D model shifting it to the correct position and update the menu icon style.
-     * @param {*} button 
+     * @param {*} button corresponding img element in top menu button
      * @param {*} entities list of a-entity with visibility to be toggled
      * @param {boolean} visible state of visibility to be set
      * @param {string} id identifier for the entity
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const button = document.querySelector(`#${id}`);
         const entities = document.querySelectorAll(`.${id}-entity`);
         initVisible(button, entities, visibility_states[index]);
-        
+
         button.addEventListener('click', () => {
             const num_visibles = visibility_states.filter((state) => state === true).length;
             if (num_visibles != 3 || (num_visibles >= 3 && [...entities].every(entity => entity.getAttribute("visible")))) {
@@ -95,5 +95,94 @@ document.addEventListener("DOMContentLoaded", function () {
                 setVisible(button, entities, visibility_states[index], num_visibles, id);
             }
         });
+    });
+
+    /** GAME BUTTONS ACTIONS **/
+    const changeArrowShaftColor = (number, color) => {
+        const arrowShaftElement = document.getElementById("arrowshaft" + number);
+        if (arrowShaftElement)
+            arrowShaftElement.setAttribute("color", color);
+    }
+
+    function getComputedDisplay(id) {
+        const element = document.getElementById(id);
+        const computedStyle = window.getComputedStyle(element);
+        return computedStyle.getPropertyValue("display");
+    }
+
+    function showGameInstructions() {
+        document.getElementById("instructionsPopup").style.display = "block";
+    }
+
+    function showScore() {
+        let score = 0;
+        arrowshaftOccupied.forEach((el, index) => {            
+            const button = document.querySelector(`#${el}`);
+            if (el != false && el.startsWith("arrowhead")) {
+                score = score + 1;
+                changeArrowShaftColor(index + 1, "green");
+            } else {
+                if(el != false)
+                    button.classList.add("wrongAnswer"); // change color of corresponding icon too
+                changeArrowShaftColor(index + 1, "red");
+            }
+        })
+        document.getElementById("score-value").textContent = score + "/3";
+        document.getElementById("scorePopup").style.display = "block";
+    }
+
+    function closePopup(id) {
+        document.querySelector(`#${id}`).style.display = "none";
+    }
+
+    // Function to enable or disable top menu buttons
+    const disableImageButtons = (disabled) => {
+        const imageButtons = document.querySelectorAll('.optionsMenu img');
+        imageButtons.forEach((button) => {
+            button.classList.toggle("disabled", disabled);
+            if (disabled == false && button.classList.length > 0) {
+                if(button.classList.contains("wrongAnswer"))
+                    button.classList.remove("wrongAnswer");
+            }
+        });
+    };
+
+    function resetGame() {
+        // reset original arrowshaft color
+        for (i = 1; i <= 3; i++)
+            changeArrowShaftColor(i, "#492201");
+
+        // hide all currently visible 3D models
+        option_icon_ids.forEach((id, index) => {
+            const button = document.querySelector(`#${id}`);
+            const entities = document.querySelectorAll(`.${id}-entity`);
+            if (visibility_states[index]) {
+                visibility_states[index] = !visibility_states[index];
+                setVisible(button, entities, visibility_states[index], 0, id);
+            }
+        });
+
+        // enable menu buttons
+        disableImageButtons(false);
+    }
+
+    document.querySelector('.gameActionsContainer').addEventListener('click', function (event) {
+        const target = event.target;
+
+        if (target.matches('#instructionsButton')) {
+            if (getComputedDisplay("scorePopup") == "none" || document.getElementById("scorePopup").style.display == "none")
+                showGameInstructions();
+        } else if (target.matches('#scoreButton')) {
+            if (getComputedDisplay("instructionsPopup") == "none" || document.getElementById("instructionsPopup").style.display == "none")
+                showScore();
+        } else if (target.matches('#instructionsPopup .closePopup')) {
+            closePopup('instructionsPopup');
+        } else if (target.matches('.scorePopupButtons .closePopup')) {
+            closePopup('scorePopup');
+            disableImageButtons(true);
+        } else if (target.matches('.scorePopupButtons .resetGame')) {
+            resetGame();
+            closePopup('scorePopup');
+        }
     });
 });
