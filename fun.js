@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const option_icon_ids = ["raschiatoio271435", "arrowhead271422", "arrowhead271409", "lama_pugnaletto", "arrowhead271407","lama271379"];
     const visibility_states = option_icon_ids.map(() => false);
-    const baseShift = {};
+    const baseShift = 0.5; // distance between each arrowshaft
     const originalPositions = {};
     const arrowshaftOccupied = [false, false, false];
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
      */
     const shiftPos = (entity, id, arrowshaft_num, visible) => {
         if (originalPositions[id]) {
-            const shift = baseShift[id] * arrowshaft_num;
+            const shift = baseShift * arrowshaft_num;
             const newX = originalPositions[id].x + (visible ? shift : -shift);
             entity.setAttribute("position", {
                 x: newX,
@@ -77,10 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
     scene.addEventListener('loaded', () => {
         option_icon_ids.forEach((id) => {
             const entity = document.querySelector(`.${id}-entity`);
-            if (entity) {
+            if (entity)
                 originalPositions[id] = entity.getAttribute("position");
-                baseShift[id] = Math.abs(originalPositions[id].x);
-            }
         });
     });
 
