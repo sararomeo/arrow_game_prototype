@@ -1,0 +1,15 @@
+{
+    "app_title": "Archer's game",
+    "help_button": "Help",
+    "score_button": "Finish",
+    "help_popup_title": "How to Play?",
+    "help_popup_text": "Guess the 3 correct arrowheads to place on the 3 arrow shafts!",
+    "help_popup_steps": [
+        "Point the 'Hiro' marker",
+        "Choose your arrowheads from the top menu",
+        "Click 'Finish' to finish the game"
+    ],
+    "close_popup_button": "Back to Game",
+    "score_popup_title": "Your score:",
+    "reset_game_button": "Restart"
+}

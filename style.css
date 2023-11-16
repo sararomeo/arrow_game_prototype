@@ -6,6 +6,21 @@ body {
     overflow: hidden;
 }
 
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(85, 137, 123);
+    z-index: 2;
+    text-align: center;
+}
+
+.loading > img {
+    width: 3em;
+    height: 3em;
+}
+
 .optionsMenu {
     position: relative;
     top: 1em;
@@ -42,8 +57,7 @@ body {
     right: 0;
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    background-color: #ddd;    
+    padding: 10px;   
     z-index: 1;
 }
 

@@ -1,0 +1,15 @@
+{
+    "app_title": "Gioco dell'arciere",
+    "help_button": "Aiuto",
+    "score_button": "Fine",
+    "help_popup_title": "Come si gioca?",
+    "help_popup_text": "Indovina quali sono le 3 punte di freccia giuste da mettere sulle 3 aste!",
+    "help_popup_steps": [
+        "Inquadra il marker 'Hiro'",
+        "Scegli le tue punte di freccia dal menu in alto",
+        "Clicca su 'Fine' per terminare il gioco"
+    ],
+    "close_popup_button": "Torna al gioco",
+    "score_popup_title": "Il tuo punteggio:",
+    "reset_game_button": "Ricomincia"
+}

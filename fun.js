@@ -1,9 +1,40 @@
+// Import the translate function from translate.js
+import { translate } from './translate.js';
+
 document.addEventListener("DOMContentLoaded", function () {
     const option_icon_ids = ["raschiatoio271435", "arrowhead271422", "arrowhead271409", "lama_pugnaletto", "arrowhead271407", "lama271379"];
     const visibility_states = option_icon_ids.map(() => false);
     const baseShift = 0.5; // distance between each arrowshaft
     const originalPositions = {};
     const arrowshaftOccupied = [false, false, false];
+
+    const initTranslation = async () => {
+        // Update bottom menu buttons
+        const helpButton = document.getElementById("helpButton");
+        const scoreButton = document.getElementById("scoreButton");
+        helpButton.textContent = await translate("help_button");
+        scoreButton.textContent = await translate("score_button");
+
+        // Update the help popup with translated text
+        const helpPopup = document.getElementById("helpPopup");
+        helpPopup.querySelector("h2").textContent = await translate("help_popup_title");
+        helpPopup.querySelector("p").textContent = await translate("help_popup_text");
+        const stepsList = helpPopup.querySelector("ol");
+        stepsList.innerHTML = "";
+        const steps = await translate("help_popup_steps");
+        const stepsHTML = steps.map((step) => `<li>${step}</li>`).join("");
+        stepsList.innerHTML = stepsHTML;
+        helpPopup.querySelector(".closePopup").textContent = await translate("close_popup_button");
+
+        // Update the score popup with translated text
+        const scorePopup = document.getElementById("scorePopup");
+        scorePopup.querySelector("h2").textContent = await translate("score_popup_title");
+        scorePopup.querySelector(".scorePopupButtons .closePopup").textContent = await translate("close_popup_button");
+        scorePopup.querySelector(".scorePopupButtons .resetGame").textContent = await translate("reset_game_button");
+    };
+
+    // Call the asynchronous function to initialize translations
+    initTranslation();
 
     // Functions to keep track of arrow shaft occupation.
     const occupyArrowShaft = (index, id) => {
@@ -73,13 +104,15 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Wait for the A-Frame scene to load and then get original position and init shift from origin for each 3D model.
-    const scene = document.querySelector('a-scene');
+    const scene = document.querySelector('a-scene');    
+    const loadingScreen = document.getElementById("loadingScreen");
     scene.addEventListener('loaded', () => {
         option_icon_ids.forEach((id) => {
             const entity = document.querySelector(`.${id}-entity`);
             if (entity)
                 originalPositions[id] = entity.getAttribute("position");
         });
+        loadingScreen.style.display = "none"; // Hide loading screen
     });
 
     // Set initial visibility and add a click event listener to toggle visibility of the 3D model.
@@ -87,7 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const button = document.querySelector(`#${id}`);
         const entities = document.querySelectorAll(`.${id}-entity`);
         initVisible(button, entities, visibility_states[index]);
-
         button.addEventListener('click', () => {
             const num_visibles = visibility_states.filter((state) => state === true).length;
             if (num_visibles != 3 || (num_visibles >= 3 && [...entities].every(entity => entity.getAttribute("visible")))) {
@@ -110,19 +142,19 @@ document.addEventListener("DOMContentLoaded", function () {
         return computedStyle.getPropertyValue("display");
     }
 
-    function showGameInstructions() {
-        document.getElementById("instructionsPopup").style.display = "block";
+    function showGamehelp() {
+        document.getElementById("helpPopup").style.display = "block";
     }
 
     function showScore() {
         let score = 0;
-        arrowshaftOccupied.forEach((el, index) => {            
+        arrowshaftOccupied.forEach((el, index) => {
             const button = document.querySelector(`#${el}`);
             if (el != false && el.startsWith("arrowhead")) {
                 score = score + 1;
                 changeArrowShaftColor(index + 1, "green");
             } else {
-                if(el != false)
+                if (el != false)
                     button.classList.add("wrongAnswer"); // change color of corresponding icon too
                 changeArrowShaftColor(index + 1, "red");
             }
@@ -141,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
         imageButtons.forEach((button) => {
             button.classList.toggle("disabled", disabled);
             if (disabled == false && button.classList.length > 0) {
-                if(button.classList.contains("wrongAnswer"))
+                if (button.classList.contains("wrongAnswer"))
                     button.classList.remove("wrongAnswer");
             }
         });
@@ -149,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function resetGame() {
         // reset original arrowshaft color
-        for (i = 1; i <= 3; i++)
+        for (let i = 1; i <= 3; i++)
             changeArrowShaftColor(i, "#492201");
 
         // hide all currently visible 3D models
@@ -169,14 +201,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector('.gameActionsContainer').addEventListener('click', function (event) {
         const target = event.target;
 
-        if (target.matches('#instructionsButton')) {
+        if (target.matches('#helpButton')) {
             if (getComputedDisplay("scorePopup") == "none" || document.getElementById("scorePopup").style.display == "none")
-                showGameInstructions();
+                showGamehelp();
         } else if (target.matches('#scoreButton')) {
-            if (getComputedDisplay("instructionsPopup") == "none" || document.getElementById("instructionsPopup").style.display == "none")
+            if (getComputedDisplay("helpPopup") == "none" || document.getElementById("helpPopup").style.display == "none")
                 showScore();
-        } else if (target.matches('#instructionsPopup .closePopup')) {
-            closePopup('instructionsPopup');
+        } else if (target.matches('#helpPopup .closePopup')) {
+            closePopup('helpPopup');
         } else if (target.matches('.scorePopupButtons .closePopup')) {
             closePopup('scorePopup');
             disableImageButtons(true);

@@ -4,19 +4,23 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-
+    
     <!-- Imports (CSS, js, aframe, ar.js) -->
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-    <script src="./fun.js"></script>
+    <script type="module" src="./fun.js"></script>
 
-    <!-- Default title bar & icon
-    <link rel="shortcut icon" href="../res/testicon.ico" type="image/x-icon" /> -->
-    <title>Gioco dell'arciere</title>
+    <!-- Default title bar & icon -->
+    <link rel="shortcut icon" href="./res/gameIcon.ico" type="image/x-icon" />
+    <title id="title"></title>
 </head>
 
 <body>
+    <div id="loadingScreen" class="loading">
+        <img id="loadingScreenImg" src="./res/load.gif" />
+    </div>
+
     <div class="optionsMenuContainer">
         <div class="optionsMenu">
             <img id="raschiatoio271435" src="./assets/2D/raschiatoio271435.png" />
@@ -29,23 +33,26 @@
     </div>
 
     <div class="gameActionsContainer">
+        <!-- Bottom menu -->
         <div class="gameActionsMenuContainer">
-            <button id="instructionsButton" class="gameButton">Come si gioca?</button>
+            <button id="helpButton" class="gameButton">Come si gioca?</button>
             <button id="scoreButton" class="gameButton">Vedi punteggio</button>
         </div>
-    
-        <div id="instructionsPopup" class="popup">
+
+        <!-- Popups -->
+        <div id="helpPopup" class="popup">
             <div class="popupContent">
                 <h2>Come si gioca?</h2>
                 <p>Indovina quali sono le 3 punte di freccia giuste da mettere sulle 3 aste!</p>
                 <ol>
+                    <li>Inquadra il marker con scritto "Hiro";</li>
                     <li>Scegli le tue punte di freccia dal menu in alto;</li>
                     <li>Clicca su "Vedi punteggio" per terminare il gioco.</li>
                 </ol>
                 <button class="closePopup">Torna al gioco</button>
             </div>
         </div>
-    
+
         <div id="scorePopup" class="popup">
             <div class="popupContent">
                 <h2>Punteggio:</h2>
@@ -58,7 +65,7 @@
         </div>
     </div>
 
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <!-- 3D models -->
         <a-assets>
             <a-asset-item id="raschiatoio271435-asset" src="./assets/3D/raschiatoio271435.glb"></a-asset-item>
