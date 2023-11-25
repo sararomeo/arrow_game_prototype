@@ -92,9 +92,11 @@
             <a-entity gltf-model="#lama271379-asset" scale="0.01 0.01 0.01" position="-0.5 -0.45 -0" rotation="30 -90 -45"
                 class="lama271379-entity"></a-entity>
 
-            <a-cylinder id="arrowshaft1" position="-0.5 -0.2 0.4" rotation="80 0 0" color="#492201" radius="0.02" height="1.5"></a-cylinder>
-            <a-cylinder id="arrowshaft2" position="0 -0.2 0.4" rotation="80 0 0" color="#492201" radius="0.02" height="1.5"></a-cylinder>
-            <a-cylinder id="arrowshaft3" position="0.5 -0.2 0.4" rotation="80 0 0" color="#492201" radius="0.02" height="1.5"></a-cylinder>
+            <img id="texture" src="res/wood.jpg" crossorigin="anonymous">
+
+            <a-cylinder id="arrowshaft1" position="-0.5 -0.2 0.4" rotation="70 0 0" radius="0.02" height="1.5" material="src: #texture;"></a-cylinder>
+            <a-cylinder id="arrowshaft2" position="0 -0.2 0.4" rotation="70 0 0" radius="0.02" height="1.5" material="src: #texture;"></a-cylinder>
+            <a-cylinder id="arrowshaft3" position="0.5 -0.2 0.4" rotation="70 0 0" radius="0.02" height="1.5" material="src: #texture;"></a-cylinder>
         </a-marker>
 
         <!-- Default camera -->
