@@ -130,11 +130,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     /** GAME BUTTONS ACTIONS **/
+    // switch color or base texture using material component
     const changeArrowShaftColor = (number, color) => {
         const arrowShaftElement = document.getElementById("arrowshaft" + number);
-        if (arrowShaftElement)
+        if (color=="red" || color=="green") {
+            arrowShaftElement.removeAttribute('material');
             arrowShaftElement.setAttribute("color", color);
+        } else {
+            arrowShaftElement.setAttribute('material', color);
+            arrowShaftElement.removeAttribute('color');
+        }
     }
+    
 
     function getComputedDisplay(id) {
         const element = document.getElementById(id);
@@ -182,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function resetGame() {
         // reset original arrowshaft color
         for (let i = 1; i <= 3; i++)
-            changeArrowShaftColor(i, "#492201");
+            changeArrowShaftColor(i, 'src: #texture;')
 
         // hide all currently visible 3D models
         option_icon_ids.forEach((id, index) => {
